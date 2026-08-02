@@ -1,0 +1,45 @@
+# Ruff 静态检查配置
+# 这是个人默认基线；项目已有静态检查配置时，优先使用项目自身配置。
+# 权威规范来源：
+#   - PEP 8: https://peps.python.org/pep-0008/ (Python 官方代码风格指南)
+#   - PEP 257: https://peps.python.org/pep-0257/ (docstring 规范)
+#   - PEP 484: https://peps.python.org/pep-0484/ (类型注解规范)
+#
+# 规则来源权威性分级：
+#   [官方] PEP 规范的直接实现
+#   [准官方] PSF 推荐或 PyPA 标准工具
+#   [行业标准] 广泛采用的社区规范（如 Google、Airbnb 风格指南）
+
+target-version = "py311"
+line-length = 88  # PEP 8 推荐 79，工程实践常用 88(black默认) 或 100
+
+# ruff 默认读取 .gitignore，自动排除 venv、build、dist 等目录
+# 无需重复配置排除
+
+[lint]
+# 启用的规则集
+select = [
+    # === 官方规范（PEP 8）===
+    "E",    # pycodestyle errors - PEP 8 错误检测的官方实现
+    "W",    # pycodestyle warnings - PEP 8 警告检测的官方实现
+    "F",    # Pyflakes - 逻辑错误检测的标准工具
+    "I",    # isort - PEP 8 import 排序规范的实现
+
+    # === 准官方/行业标准 ===
+    "UP",   # pyupgrade - PEP 484/604 类型注解现代化（遵循 PEP 规范演进）
+    "B",    # flake8-bugbear - 行业广泛采用的 bug 模式检测（Google、Dropbox 等使用）
+    "C4",   # flake8-comprehensions - 推导式最佳实践（PEP 202 相关）
+    "SIM",  # flake8-simplify - 代码简化建议（遵循 PEP 20 简洁原则）
+    "C90",  # mccabe - 圈复杂度检查（软件工程通用标准）
+]
+
+# 忽略的规则
+ignore = [
+    "E501",   # line too long - 由 formatter 或团队约定处理
+    "SIM108", # if-else-block-instead-of-if-exp - 项目禁止复杂三元表达式
+]
+
+# 项目特殊配置
+[lint.per-file-ignores]
+# __init__.py 允许未使用的导入（模块导出的标准做法）
+"__init__.py" = ["F401"]
